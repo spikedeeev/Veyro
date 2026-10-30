@@ -32,13 +32,17 @@ async function bootstrap() {
     );
     SwaggerModule.setup('api/docs', app, document);
   }
-  app.useStaticAssets(app.get(StorageService).rootDir, {
-    prefix: UPLOADS_ROUTE,
-    index: false,
-    maxAge: '30d',
-    immutable: true,
-    setHeaders: (res) => res.setHeader('X-Content-Type-Options', 'nosniff'),
-  });
+  const storage = app.get(StorageService);
+
+  if (!storage.usesCloudinary) {
+    app.useStaticAssets(storage.rootDir, {
+      prefix: UPLOADS_ROUTE,
+      index: false,
+      maxAge: '30d',
+      immutable: true,
+      setHeaders: (res) => res.setHeader('X-Content-Type-Options', 'nosniff'),
+    });
+  }
 
   app.useGlobalPipes(
     new ValidationPipe({

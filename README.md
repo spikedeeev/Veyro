@@ -16,7 +16,7 @@ Veyro pairs a responsive Next.js storefront with a NestJS API and an admin dashb
   <img src="https://img.shields.io/badge/Stripe-Checkout-635bff?logo=stripe" alt="Stripe Checkout" />
 </p>
 
-[Features](#features) · [Technology](#technology) · [Getting started](#getting-started) · [Payments](#stripe-test-payments) · [Documentation](#documentation)
+[Features](#features) · [Technology](#technology) · [Getting started](#getting-started) · [Production deployment](docs/DEPLOYMENT.md) · [Payments](#stripe-test-payments) · [Documentation](#documentation)
 
 </div>
 
@@ -101,7 +101,7 @@ Set a unique `POSTGRES_PASSWORD` in the root `.env`. Then create the backend env
 Copy-Item backend\.env.example backend\.env
 ```
 
-Set unique `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values in `backend\.env`. For local development, the example values for the database connection, Redis, Mailpit, and frontend URL are already configured. Keep real secrets in ignored `.env` files; never commit them.
+Set unique `JWT_ACCESS_SECRET` and `JWT_REFRESH_SECRET` values in `backend\.env`. For local development, the example values for the database connection, Redis, Mailpit, and frontend URL are already configured. Optional Cloudinary settings can be left empty; local uploads will use the persistent Compose volume. Keep real secrets in ignored `.env` files; never commit them.
 
 ### 2. Start the backend and infrastructure
 
@@ -155,6 +155,10 @@ node scripts/seed-catalog.mjs
 
 The catalog script is idempotent and skips products that already exist by name.
 
+## Production deployment
+
+The default `main` branch and Docker Compose configuration are intended for local development. The [`production` branch deployment guide](docs/DEPLOYMENT.md) describes the separate hosted setup using managed PostgreSQL, Redis, and image storage, with Vercel for the frontend and Render for the backend. The hosted backend requires `REDIS_URL` and all three Cloudinary settings; local Compose continues to use `REDIS_HOST`, `REDIS_PORT`, and local image storage.
+
 ## Stripe test payments
 
 Use Stripe test keys first. In `backend\.env`, set:
@@ -205,4 +209,3 @@ The checkout session is hosted by Stripe. A signed webhook confirms payment and 
 - Keep Stripe test and live keys in the corresponding Stripe mode; never expose secret keys in frontend code.
 - The Stripe webhook endpoint verifies the signature against the raw request body.
 - Admin routes require a valid authenticated session and the `ADMIN` role.
-

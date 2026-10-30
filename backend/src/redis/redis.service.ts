@@ -6,10 +6,14 @@ export class RedisService implements OnModuleInit, OnModuleDestroy {
   private readonly redis: Redis;
 
   constructor() {
-    this.redis = new Redis({
-      host: process.env.REDIS_HOST || 'localhost',
-      port: Number(process.env.REDIS_PORT) || 6379,
-    });
+    const url = process.env.REDIS_URL?.trim();
+
+    this.redis = url
+      ? new Redis(url)
+      : new Redis({
+          host: process.env.REDIS_HOST || 'localhost',
+          port: Number(process.env.REDIS_PORT) || 6379,
+        });
   }
 
   async onModuleInit() {
