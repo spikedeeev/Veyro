@@ -1,0 +1,13 @@
+import { Module } from '@nestjs/common';
+import { PassportModule } from '@nestjs/passport';
+import { OrdersModule } from '../orders/orders.module';
+import { PaymentsController } from './payments.controller';
+import { PaymentsService } from './payments.service';
+import { StripeService } from './stripe.service';
+
+@Module({
+  imports: [PassportModule.register({ defaultStrategy: 'jwt' }), OrdersModule],
+  controllers: [PaymentsController],
+  providers: [PaymentsService, StripeService],
+})
+export class PaymentsModule {}
