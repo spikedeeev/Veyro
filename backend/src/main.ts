@@ -13,8 +13,9 @@ async function bootstrap() {
 
   // Needed for correct client IPs (rate limiting) behind a reverse proxy
   const trustProxy = process.env.TRUST_PROXY?.trim();
-  if (trustProxy && trustProxy !== 'false') {
-    app.set('trust proxy', trustProxy === 'true' ? 1 : trustProxy);
+  const normalizedTrustProxy = trustProxy?.toLowerCase();
+  if (normalizedTrustProxy && normalizedTrustProxy !== 'false') {
+    app.set('trust proxy', normalizedTrustProxy === 'true' ? 1 : trustProxy);
   }
 
   app.use(cookieParser());
