@@ -61,24 +61,7 @@ Publishing a product requires at least three images. Admin API routes are protec
 | Payments and email | Stripe Checkout and signed webhooks, Nodemailer, Mailpit for local email |
 | Local infrastructure | Docker Compose |
 
-### Architecture
 
-```mermaid
-flowchart LR
-    Browser[Next.js storefront<br/>localhost:5173]
-    API[NestJS REST API<br/>localhost:3000]
-    DB[(PostgreSQL)]
-    Redis[(Redis)]
-    Mailpit[Mailpit]
-    Stripe[Stripe Checkout]
-
-    Browser -->|/api and /uploads proxy| API
-    API --> DB
-    API --> Redis
-    API -->|SMTP| Mailpit
-    API -->|Create Checkout Session| Stripe
-    Stripe -->|Signed webhook| API
-```
 
 ## Getting started
 
