@@ -6,6 +6,7 @@
 
 Browse the collection, save favorites, manage a cart, and complete secure payments with Stripe.
 Veyro pairs a responsive Next.js storefront with a NestJS API and an admin dashboard.
+Authentication is built on the [nestjs-jwt-redis-auth](https://github.com/spikedeeev/nestjs-jwt-redis-auth) project.
 
 <p>
   <img src="https://img.shields.io/badge/Next.js-16-black?logo=next.js" alt="Next.js 16" />
